@@ -1,1 +1,23 @@
+<html>
 
+<head>
+<title>Dashboard</title>
+</head>
+
+<body>
+
+<h2>Search History</h2>
+
+<ul>
+
+{% for row in data %}
+
+<li>{{row[1]}}</li>
+
+{% endfor %}
+
+</ul>
+
+</body>
+
+</html>
