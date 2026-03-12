@@ -3,6 +3,26 @@ import sqlite3
 
 app = Flask(__name__)
 
+# 🔧 Database initialize function
+def init_db():
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        password TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+# App start hone par table check/create
+init_db()
+
+
 @app.route("/")
 def home():
     return render_template("login.html")
@@ -18,7 +38,6 @@ def login():
     cur = conn.cursor()
 
     cur.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
-
     user = cur.fetchone()
 
     conn.close()
@@ -56,4 +75,5 @@ def dashboard():
     return render_template("dashboard.html")
 
 
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
