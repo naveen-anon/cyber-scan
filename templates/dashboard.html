@@ -1,23 +1,37 @@
-<html>
+<h1>OSINT Dashboard</h1>
 
-<head>
-<title>Dashboard</title>
-</head>
+<div class="grid">
 
-<body>
+<div class="card">
+<h2>Username Search</h2>
+<input id="username">
+<button onclick="usernameSearch()">Search</button>
+</div>
 
-<h2>Search History</h2>
+<div class="card">
+<h2>IP Lookup</h2>
+<input id="ip">
+<button onclick="ipSearch()">Search</button>
+</div>
 
-<ul>
+<div class="card">
+<h2>Phone Lookup</h2>
+<input id="phone">
+<button onclick="phoneSearch()">Search</button>
+</div>
 
-{% for row in data %}
+<div class="card">
+<h2>Domain WHOIS</h2>
+<input id="domain">
+<button onclick="domainSearch()">Search</button>
+</div>
 
-<li>{{row[1]}}</li>
+<div class="card">
+<h2>Email Lookup</h2>
+<input id="email">
+<button onclick="emailSearch()">Search</button>
+</div>
 
-{% endfor %}
+</div>
 
-</ul>
-
-</body>
-
-</html>
+<div id="results"></div>
