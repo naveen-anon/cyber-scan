@@ -1,54 +1,62 @@
+from flask import Flask,render_template,request,redirect,session,jsonify
+from database.models import init_db
+from database.db import get_db
 
-from flask import Flask,render_template,request,redirect
-import sqlite3
+from modules.ip_lookup import lookup as ip_lookup
+from modules.domain_lookup import lookup as domain_lookup
+from modules.username_lookup import lookup as username_lookup
 
 app = Flask(__name__)
-
-def init_db():
-    conn = sqlite3.connect("database.db")
-    cur = conn.cursor()
-
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS searches(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        query TEXT
-    )
-    """)
-
-    conn.commit()
-    conn.close()
+app.secret_key="osint_secret"
 
 init_db()
 
 @app.route("/")
 def home():
-    return render_template("index.html")
 
-@app.route("/search",methods=["POST"])
-def search():
+    if "user" in session:
+        return redirect("/dashboard")
 
-    query=request.form["query"]
+    return render_template("login.html")
 
-    conn=sqlite3.connect("database.db")
-    cur=conn.cursor()
-
-    cur.execute("INSERT INTO searches(query) VALUES(?)",(query,))
-    conn.commit()
-    conn.close()
-
-    return redirect("/dashboard")
 
 @app.route("/dashboard")
 def dashboard():
 
-    conn=sqlite3.connect("database.db")
-    cur=conn.cursor()
+    if "user" not in session:
+        return redirect("/")
 
-    cur.execute("SELECT * FROM searches")
-    data=cur.fetchall()
+    return render_template("dashboard.html")
 
-    conn.close()
 
-    return render_template("dashboard.html",data=data)
+@app.route("/ip_lookup",methods=["POST"])
+def ip_tool():
+
+    ip=request.form["ip"]
+
+    data=ip_lookup(ip)
+
+    return jsonify(data)
+
+
+@app.route("/domain_lookup",methods=["POST"])
+def domain_tool():
+
+    domain=request.form["domain"]
+
+    data=domain_lookup(domain)
+
+    return jsonify(str(data))
+
+
+@app.route("/username_lookup",methods=["POST"])
+def username_tool():
+
+    username=request.form["username"]
+
+    data=username_lookup(username)
+
+    return jsonify(data)
+
 
 app.run(debug=True)
