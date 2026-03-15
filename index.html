@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Matrix OSINT Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+
+<h1>Matrix OSINT Dashboard</h1>
+
+<div class="card">
+
+<h2>Username Investigation</h2>
+
+<input id="username" placeholder="Enter username">
+<button onclick="usernameSearch()">Search</button>
+
+<div id="username_result"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Shodan Lookup</h2>
+
+<input id="ip" placeholder="Enter IP address">
+<button onclick="shodanLookup()">Search</button>
+
+<pre id="shodan_result"></pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>Domain OSINT</h2>
+
+<input id="domain" placeholder="Enter domain">
+<button onclick="domainLookup()">Lookup</button>
+
+<div id="domain_result"></div>
+
+</div>
+
+</div>
+
+<script src="matrix.js"></script>
+<script src="script.js"></script>
+
+</body>
+
+  </html>
